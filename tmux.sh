@@ -44,6 +44,25 @@ if [[ -z $(type -P tmux) ]]; then
     ${PACKAGE_INSTALL[int]} tmux
 fi
 
+back2menu() {
+    echo ""
+    green "所选操作执行完成"
+    read -rp "请输入“y”退出，或按任意键回到主菜单：" back2menuInput
+    case "$back2menuInput" in
+        y) exit 1 ;;
+        *) menu ;;
+    esac
+}
+
+createTmuxSession(){
+    read -rp "设置Tmux后台会话名称：" tmuxName
+    if [[ -z $tmuxName ]]; then
+        red "未设置Tmux后台会话名称，退出操作"
+        back2menu
+    fi
+    tmux new -s ${tmuxName}
+}
+
 menu(){
     clear
     echo "#############################################################"

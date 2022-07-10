@@ -66,7 +66,7 @@ createTmuxSession(){
 
 enterTmuxSession(){
     tmuxNames=$(tmux ls | awk '{print $1}' | awk -F ":" '{print $1}')
-    if [[ -n $screenNames ]]; then
+    if [[ -n $tmuxNames ]]; then
         yellow "当前运行的Tmux后台会话如下所示："
         green "$tmuxNames"
     fi
@@ -77,7 +77,7 @@ enterTmuxSession(){
 
 deleteTmuxSession(){
     tmuxNames=$(tmux ls | awk '{print $1}' | awk -F ":" '{print $1}')
-    if [[ -n $screenNames ]]; then
+    if [[ -n $tmuxNames ]]; then
         yellow "当前运行的Tmux后台会话如下所示："
         green "$tmuxNames"
     fi

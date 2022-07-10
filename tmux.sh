@@ -86,6 +86,18 @@ deleteTmuxSession(){
     back2menu
 }
 
+renameTmuxSession(){
+    tmuxNames=$(tmux ls | awk '{print $1}' | awk -F ":" '{print $1}')
+    if [[ -n $tmuxNames ]]; then
+        yellow "当前运行的Tmux后台会话如下所示："
+        green "$tmuxNames"
+    fi
+    read -rp "输入需要重命名的Tmux后台会话名称：" tmuxName
+    read -rp "设置新的Tmux后台会话名称：" tmuxNewName
+    tmux rename-session -t ${tmuxName} ${tmuxNewName}
+    back2menu
+}
+
 menu(){
     clear
     echo "#############################################################"
@@ -99,10 +111,9 @@ menu(){
     echo -e " ${GREEN}2.${PLAIN} 查看并进入指定Tmux后台会话"
     echo -e " ${GREEN}3.${PLAIN} 查看并删除指定Tmux后台会话"
     echo " -------------"
+    echo -e " ${GREEN}4.${PLAIN} 重命名指定Tmux后台会话"
+    echo " -------------"
     echo -e " ${GREEN}0.${PLAIN} 退出脚本"
-    echo ""
-    yellow "使用脚本的一些小提示："
-    yellow "1. 退出Tmux后台会话时，请输入 tmux detach 命令退出"
     echo ""
     read -rp "请输入选项 [0-4]:" menuNumberInput
     case "$menuNumberInput" in 

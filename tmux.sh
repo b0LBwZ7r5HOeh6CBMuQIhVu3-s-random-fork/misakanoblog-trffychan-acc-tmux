@@ -61,6 +61,29 @@ createTmuxSession(){
         back2menu
     fi
     tmux new -s ${tmuxName}
+    back2menu
+}
+
+enterTmuxSession(){
+    tmuxNames=`screen -ls | grep '(Detached)' | awk '{print $1}' | awk -F "." '{print $2}'`
+    if [[ -n $screenNames ]]; then
+        yellow "当前运行的Tmux后台会话如下所示："
+        green "$tmuxNames"
+    fi
+    read -rp "输入进入的Tmux后台会话名称：" tmuxName
+    tmux attach -t ${tmuxName} || red "没有找到 $tmuxName 会话"
+    back2menu
+}
+
+deleteTmuxSession(){
+    tmuxNames=`screen -ls | grep '(Detached)' | awk '{print $1}' | awk -F "." '{print $2}'`
+    if [[ -n $screenNames ]]; then
+        yellow "当前运行的Tmux后台会话如下所示："
+        green "$tmuxNames"
+    fi
+    read -rp "输入需要删除的Tmux后台会话名称：" tmuxName
+    tmux kill-session -t ${tmuxName} || red "没有找到 $tmuxName 会话"
+    back2menu
 }
 
 menu(){
@@ -79,7 +102,7 @@ menu(){
     echo -e " ${GREEN}0.${PLAIN} 退出脚本"
     echo ""
     yellow "使用脚本的一些小提示："
-    yellow "1. 退出Screen后台会话时，请按Ctrl+B+D快捷键退出"
+    yellow "1. 退出Tmux后台会话时，请输入 tmux detach 命令退出"
     echo ""
     read -rp "请输入选项 [0-4]:" menuNumberInput
     case "$menuNumberInput" in 

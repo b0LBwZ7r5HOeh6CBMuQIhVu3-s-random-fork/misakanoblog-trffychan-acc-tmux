@@ -65,7 +65,7 @@ createTmuxSession(){
 }
 
 enterTmuxSession(){
-    tmuxNames=`screen -ls | grep '(Detached)' | awk '{print $1}' | awk -F "." '{print $2}'`
+    tmuxNames=$(tmux ls | awk '{print $1}' | awk -F ":" '{print $1}')
     if [[ -n $screenNames ]]; then
         yellow "当前运行的Tmux后台会话如下所示："
         green "$tmuxNames"
@@ -76,7 +76,7 @@ enterTmuxSession(){
 }
 
 deleteTmuxSession(){
-    tmuxNames=`screen -ls | grep '(Detached)' | awk '{print $1}' | awk -F "." '{print $2}'`
+    tmuxNames=$(tmux ls | awk '{print $1}' | awk -F ":" '{print $1}')
     if [[ -n $screenNames ]]; then
         yellow "当前运行的Tmux后台会话如下所示："
         green "$tmuxNames"

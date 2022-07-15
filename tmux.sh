@@ -59,7 +59,7 @@ back2menu() {
 createTmuxSession(){
     read -rp "设置Tmux后台会话名称：" tmuxName
     if [[ -z $tmuxName ]]; then
-        red "未设置Tmux后台会话名称，退出操作"
+        red "未设置Tmux后台会话名称，已退出操作"
         back2menu
     fi
     tmux new -s ${tmuxName}
@@ -73,7 +73,7 @@ enterTmuxSession(){
         green "$tmuxNames"
     fi
     read -rp "输入进入的Tmux后台会话名称：" tmuxName
-    tmux attach -t ${tmuxName} || red "没有找到 $tmuxName 会话"
+    tmux attach -t ${tmuxName} || red "没有找到名称为 $tmuxName 会话"
     back2menu
 }
 
@@ -84,7 +84,7 @@ deleteTmuxSession(){
         green "$tmuxNames"
     fi
     read -rp "输入需要删除的Tmux后台会话名称：" tmuxName
-    tmux kill-session -t ${tmuxName} || red "没有找到 $tmuxName 会话"
+    tmux kill-session -t ${tmuxName} || red "没有找到名称为 $tmuxName 会话"
     back2menu
 }
 
